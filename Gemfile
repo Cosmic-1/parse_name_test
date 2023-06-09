@@ -6,6 +6,6 @@ gem 'capybara', '~> 3.39'
 
 gem 'selenium-webdriver', '~> 4.9'
 
-gem 'minitest', '~> 5.17'
-
 gem 'rake', '~> 13.0'
+
+gem "rspec", "~> 3.12"

@@ -1,30 +1,34 @@
 # frozen_string_literal: true
 
 require_relative 'helper'
-require_relative 'base'
 
 module Parse
-  class Name < Base
-    def initialize
-      super
-      @switch_page = 1
+  class Name
+    include Capybara::DSL
+
+    def login!(login = 'mamipa4200@pyadu.com', password = 'mamipa4200@pyadu.com')
+      visit 'login'
+
+      click_button 'Accept cookies'
+
+      within(:xpath, './/div/div/div/form') do
+        fill_in 'login', with: login
+        fill_in 'password', with: password
+        click_on 'Log in'
+      end
     end
 
-    def current_page
-      @switch_page
+    def signed_in?(name = 'mamipa4200')
+      page.has_content?(name)
     end
 
-    def next_page!
-      @switch_page += 1 if @switch_page >= 1
+    def logout!
+      Capybara.reset_sessions!
     end
 
-    def previous_page!
-      @switch_page -= 1 if @switch_page > 1
-    end
-
-    def take_list_names
+    def take_list_names(number_page)
       array = []
-      visit "index.php?members/list/&page=#{@switch_page}"
+      visit "index.php?members/list/&page=#{number_page}"
 
       all(:xpath, './/ol/li').each do |li|
         array << li.find(:xpath, './/h3/a').text
