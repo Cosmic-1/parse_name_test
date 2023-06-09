@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'spec_helper'
-
 describe Parse::Name do
   before do
     @parse_name = Parse::Name.new
